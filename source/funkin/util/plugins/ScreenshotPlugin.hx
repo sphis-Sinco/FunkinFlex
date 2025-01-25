@@ -73,6 +73,14 @@ class ScreenshotPlugin extends FlxBasic
 
     onPreScreenshot = new FlxTypedSignal<Void->Void>();
     onPostScreenshot = new FlxTypedSignal<Bitmap->Void>();
+    FlxG.signals.postStateSwitch.add(onStateSwitchComplete);
+  }
+
+  public function onStateSwitchComplete():Void
+  {
+    trace('Stage switch complete! Removing screenshot preview sprite if it exists.');
+    FlxG.stage.removeChild(previewSprite);
+    previewSprite = null;
   }
 
   public override function update(elapsed:Float):Void
@@ -103,11 +111,7 @@ class ScreenshotPlugin extends FlxBasic
 
   public function hasPressedScreenshot():Bool
   {
-    #if FEATURE_SCREENSHOTS
-    return PlayerSettings.player1.controls.WINDOW_SCREENSHOT;
-    #else
-    return false;
-    #end
+    return PlayerSettings.player1.controls.SCREENSHOT;
   }
 
   public function updatePreferences():Void
@@ -166,6 +170,8 @@ class ScreenshotPlugin extends FlxBasic
 
   final CAMERA_FLASH_DURATION = 0.25;
 
+  var previewSprite:Null<Sprite> = null;
+
   /**
    * Visual and audio feedback when a screenshot is taken.
    */
@@ -219,7 +225,7 @@ class ScreenshotPlugin extends FlxBasic
     preview.draw(bitmap.bitmapData, matrix);
 
     // used for movement + button stuff
-    var previewSprite = new Sprite();
+    previewSprite = new Sprite();
 
     previewSprite.buttonMode = true;
     previewSprite.addEventListener(MouseEvent.MOUSE_DOWN, openScreenshotsFolder);
@@ -261,6 +267,7 @@ class ScreenshotPlugin extends FlxBasic
                     previewSprite.removeEventListener(MouseEvent.MOUSE_OUT, onHoverOut);
 
                     FlxG.stage.removeChild(previewSprite);
+                    previewSprite = null;
                   }
                 });
             });
