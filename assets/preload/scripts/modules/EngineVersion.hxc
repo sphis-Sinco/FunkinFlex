@@ -1,0 +1,29 @@
+import funkin.ui.mainmenu.MainMenuState;
+
+import funkin.modding.module.Module;
+
+class EngineVersion extends Module
+{
+	public var VERSION:String = "1.0.0";
+
+	public function new()
+	{
+		// Create a module with the ID 'engine-version'
+		super('engine-version');
+	}
+
+	/**
+	 * Event called after changing to a new state.
+	 */
+	public function onStateChangeEnd(event:StateChangeScriptEvent)
+	{
+		if (Std.isOfType(event.targetState, MainMenuState))
+		{
+			// We are moving into the main menu.
+			trace("Engine Version for Main Menu");
+
+			event.targetState.leftWatermarkText.text += '\nFunkinFlex v'+VERSION;
+			event.targetState.leftWatermarkText.y -= 18;
+		}
+	}
+}
