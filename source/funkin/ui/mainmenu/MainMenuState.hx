@@ -327,6 +327,12 @@ class MainMenuState extends MusicBeatState
   {
     super.update(elapsed);
 
+    #if FEATURE_DEBUG_FUNCTIONS
+    var watermark:FlxText = this.leftWatermarkText;
+    if (!watermark.text.endsWith(Constants.GIT_STRING)) this.leftWatermarkText.text += ' ${Constants.GIT_STRING}';
+    #end
+
+
     if (FlxG.onMobile)
     {
       var touch:FlxTouch = FlxG.touches.getFirst();

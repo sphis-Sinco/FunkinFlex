@@ -19,7 +19,7 @@ class Constants
    * The title of the game, for debug printing purposes.
    * Change this if you're making an engine.
    */
-  public static final TITLE:String = "Friday Night Funkin'";
+  public static final TITLE:String = "Friday Night Funkin' Flex";
 
   /**
    * The current version number of the game.
@@ -43,17 +43,15 @@ class Constants
    */
   public static final VERSION_SUFFIX:String = #if FEATURE_DEBUG_FUNCTIONS ' PROTOTYPE' #else '' #end;
 
-  #if FEATURE_DEBUG_FUNCTIONS
-  static function get_VERSION():String
-  {
-    return 'v${Application.current.meta.get('version')} (${GIT_BRANCH} : ${GIT_HASH}${GIT_HAS_LOCAL_CHANGES ? ' : MODIFIED' : ''})' + VERSION_SUFFIX;
-  }
-  #else
   static function get_VERSION():String
   {
     return 'v${Application.current.meta.get('version')}' + VERSION_SUFFIX;
   }
-  #end
+  /**
+   * This is so that the git information isn't next to the funkin text
+   * when it should be next to the funkinflex text in the MainMenuState.
+   */
+  public static var GIT_STRING:String = '(${GIT_BRANCH} : ${GIT_HASH} ${GIT_HAS_LOCAL_CHANGES ? ' : MODIFIED' : ''})';
 
   /**
    * URL DATA
